@@ -1,3 +1,7 @@
+# Case 2
+# 2024. 09. 10
+
+# import library
 library(tidyverse)
 
 # define the link to the data - you can try this in your browser too.  Note that the URL ends in .txt.

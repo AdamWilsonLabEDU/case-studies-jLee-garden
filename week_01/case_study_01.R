@@ -1,6 +1,8 @@
 ## CASE STUDY 1
 ## Sep 5 2024
 
+#Jeongwon Lee
+
 #Import library
 library(ggplot2)
 data(iris)
