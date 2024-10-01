@@ -1,22 +1,58 @@
 ---
 title: "Case Study 04"
-author: Your Name
-date: August 1, 2020
+author: Jeongwon Lee
+date: Sep 24, 2024
 output: github_document
 ---
 
-## First Header
+## Join tables
+# What is the full name of the destination airport farthest from any of the NYC airports in the flights table?
 
-Comments
+Sometime, we need to integrate and connect multiple tables to get what we want.
+Then, we can use a join function which combines columns from one or more tables into a new table.
+
+The full names of airport is stored in 'airport' table and we have flight information in 'flight' table.
+Therefore, we can join them by their common columns, which *'dest'* and *'faa'*.
 
 ```{r}
-summary(cars)
+# library
+library(tidyverse)
+library(nycflights13)
+
+# Join two datasets using a common column
+flights_joined <- left_join(flights, airports, by = c('dest' = 'faa'))
+
+# View 5 random rows with only origin, destination, distance and name of airport columns
+head(flights_joined[,c('origin', 'dest', 'distance', 'name')])
 ```
 
-## Second Header
+## Find data which meets our condition
+# What is the full name of the destination airport farthest from any of the NYC airports in the flights table?
 
-Comments
+Once we joined the tables, we can find data which we want by filtering.
 
 ```{r}
-plot(pressure)
+
+farthest_airport <- flights_joined %>% filter(distance == max(distance)) %>% select(name) %>% distinct()
+farthest_airport
+
+```
+
+## Plot the result
+Let's visualize what we found.
+
+```{r}
+# US basemap
+library(maps)
+library(mapdata)
+
+usa <- map_data('usa')
+
+ggplot(data = usa, aes(x = long, y = lat)) + 
+  geom_polygon() + 
+  geom_point(data = flights_joined, aes(x = lon, y = lat, color = distance)) + 
+  scale_color_gradient(low = "pink", high = "darkred") +
+  coord_quickmap() +
+  ggtitle("The flight distance from NY airport")
+
 ```
