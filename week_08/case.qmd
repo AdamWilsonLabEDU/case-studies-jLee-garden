@@ -1,8 +1,8 @@
 ---
-title: "Case Study 08"
-author: Jeongwon Lee
-date: October 22, 2024
-output: github_document
+title: "case_study_08"
+author: "Jeongwon"
+format: html
+editor: visual
 ---
 
 ```{r}

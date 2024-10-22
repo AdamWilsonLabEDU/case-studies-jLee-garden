@@ -1,8 +1,8 @@
 ---
-title: "Case Study 08"
-author: Jeongwon Lee
-date: October 22, 2024
-output: github_document
+title: "case_study_08"
+author: "Jeongwon"
+format: html
+editor: visual
 ---
 
 ```{r}
@@ -36,7 +36,7 @@ ggplot(data, aes(x=year, y=mean)) +
 ```{r, results='hide',message=FALSE, echo=F}
 # install.packages("kableExtra")
 # install.packages("webshot2")
-#data %>% 
-#  kableExtra::kable() %>% 
-#  kableExtra::as_image(width = 10, file = "table.png") %>%
+data %>%
+ kableExtra::kable() %>%
+ kableExtra::as_image(width = 10, file = "table.png")
 ```
