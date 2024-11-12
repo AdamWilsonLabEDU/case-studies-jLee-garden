@@ -23,7 +23,7 @@ getDoParWorkers() # check registered cores
 ### API key
 ```{r}
 library(tidycensus)
-census_api_key("511c07ed242cc7062747de596c83aac90e41cde0")
+census_api_key("my_key")
 ```
 ### Getting data from the 2020 decennial Census
 ```{r}
