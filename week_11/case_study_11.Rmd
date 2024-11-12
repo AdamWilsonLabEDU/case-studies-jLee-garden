@@ -1,7 +1,65 @@
 ---
 title: "Case Study 11"
-author: Your Name
-date: August 1, 2020
+author: Jeongwon Lee
+date: November 12, 2024
 output: github_document
 ---
- 
+
+# Parallel Computing with R
+## Import library
+```{r}
+library(tidyverse)
+library(spData)
+library(sf)
+
+## New Packages
+library(mapview) # new package that makes easy leaflet maps
+library(foreach)
+library(doParallel)
+registerDoParallel(4)
+getDoParWorkers() # check registered cores
+```
+## Download spatial data from the U.S. Census
+### API key
+```{r}
+library(tidycensus)
+census_api_key("511c07ed242cc7062747de596c83aac90e41cde0")
+```
+### Getting data from the 2020 decennial Census
+```{r}
+race_vars <- c(
+  "Total Population" = "P1_001N",
+  "White alone" = "P1_003N",
+  "Black or African American alone" = "P1_004N",
+  "American Indian and Alaska Native alone" = "P1_005N",
+  "Asian alone" = "P1_006N",
+  "Native Hawaiian and Other Pacific Islander alone" = "P1_007N",
+  "Some Other Race alone" = "P1_008N",
+  "Two or More Races" = "P1_009N"
+)
+
+options(tigris_use_cache = TRUE)
+erie <- get_decennial(geography = "block", variables = race_vars, year=2020,
+                  state = "NY", county = "Erie County", geometry = TRUE,
+                  sumfile = "pl", cache_table=T) 
+
+```
+## Write a parallel foreach() loop to generate a point representing each person in each census polygon (block/tract)
+```{r}
+# Crop the county-level data
+erie_county <- st_crop(erie, xmin=-78.9, xmax=-78.85, ymin=42.888, ymax=42.92)
+
+# foreach loop that does the following steps for each racial group in the variable column of the erie dataset
+point_race <- foreach(race = unique(erie_county$variable), .combine=rbind) %dopar% {
+  erie_county %>% filter(variable == race) %>% # filter the the data to include only one race at time 
+  st_sample(size=.$value) %>% # sample points on or in sets of spatial features
+  st_as_sf() %>% # convert the points to spatial object
+  mutate(variable = race) }
+  
+```
+
+## Make a ‘dot map’ of the racial distribution in Buffalo, NY.
+```{r}
+library(mapview)
+mapview(point_race, zcol = "variable", legend = TRUE)
+```
