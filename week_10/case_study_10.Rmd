@@ -193,4 +193,5 @@ lcds1 %>%
     labs(x = 'Month', y = 'Monthly Mean Land Surface Temperature (C)') +
     ggtitle('Land Surface Temperature in Urban and Forest')
 
+
 ```
