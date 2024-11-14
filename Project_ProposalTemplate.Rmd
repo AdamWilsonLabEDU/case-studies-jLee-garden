@@ -7,7 +7,7 @@ output:
 
 # Which areas in New York are most affected by air pollution, and why?
 
-## Background and motivation
+## Background and motivation 
 
 The PM refers to particulate matter which composed of solid particles and liquid droplets found in the air (EPA). They vary in size but especially PM 2.5 stands for particles with diameters that are generally 2.5 micrometers and smaller (EPA). Considering a single hair from humans is 50-70 micrometers, they can cause harmful effect on our health, getting deep down into lungs and even into blood system due to its significant small size (EPA). In fact, various research has reported adverse health effects of exposure to PM2.5 (Dadvand et al., 2013).
 
