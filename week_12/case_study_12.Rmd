@@ -1,7 +1,61 @@
 ---
 title: "Case Study 12"
-author: Your Name
-date: August 1, 2020
+author: Jeongwon Lee
+date: November 19, 2024
 output: github_document
 ---
- 
+
+# Tasks
+
+-   Download daily weather data for Buffalo, NY using an API
+
+-   Generate a dynamic html visualization of the timeseries.
+
+-   Save the graph to your project folder using Export-\>Save as Webpage
+
+# Import libraries
+
+```{r}
+# install.packages("widgetframe")
+library(tidyverse)
+library(htmlwidgets)
+library(widgetframe)
+library(dplyr)
+library(ggplot2)
+```
+
+# Download data
+```{r}
+library(xts)
+library(dygraphs)
+library(openmeteo)
+d <- weather_history(c(43.00923265935055, -78.78494250958327),start = "2023-01-01",end=today(),
+                  daily=list("temperature_2m_max","temperature_2m_min","precipitation_sum")) %>% 
+  mutate(daily_temperature_2m_mean=(daily_temperature_2m_max+daily_temperature_2m_min)/2)
+```
+
+# 1. Convert data into xts data
+```{r}
+# convert data in to an xts time series object
+d.temp.xts <- d %>% select("date", "daily_temperature_2m_max") %>%
+  filter(!is.na(daily_temperature_2m_max)) %>% as.xts(order.by = .$date)
+
+d.prec.xts <- d %>% select("date", "daily_precipitation_sum") %>%
+  filter(!is.na(daily_precipitation_sum)) %>% as.xts(order.by = .$date)
+```
+
+# 2. Plot dygraph of temperature
+```{r}
+# dygraph of temperature
+dygraph(d.temp.xts, main = "Daily Maximum Temperature in Buffalo, NY") %>%
+  dySeries("daily_temperature_2m_max", color = "#008080") %>%
+  dyRangeSelector(dateWindow = c("2023-01-01", "2024-10-31"))
+```
+
+# 3. Plot dygraph of precipitation
+```{r}
+# dygraph of precipitation
+dygraph(d.prec.xts, main = "Daily Precipitation in Buffalo, NY") %>%
+  dySeries("daily_precipitation_sum", color = "#109090") %>%
+  dyRangeSelector(dateWindow = c("2023-01-01", "2024-10-31"))
+```
