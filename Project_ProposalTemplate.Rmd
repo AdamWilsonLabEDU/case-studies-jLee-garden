@@ -1,0 +1,82 @@
+---
+title: "Project Proposal Template"
+author: Jeongwon Lee
+output: 
+  github_document
+---
+
+# Which areas in New York are most affected by air pollution, and why?
+
+## Background and motivation 
+
+The PM refers to particulate matter which composed of solid particles and liquid droplets found in the air (EPA). They vary in size but especially PM 2.5 stands for particles with diameters that are generally 2.5 micrometers and smaller (EPA). Considering a single hair from humans is 50-70 micrometers, they can cause harmful effect on our health, getting deep down into lungs and even into blood system due to its significant small size (EPA). In fact, various research has reported adverse health effects of exposure to PM2.5 (Dadvand et al., 2013).
+
+The PM2.5 is a pollutant, monitored by EPA and measured at fixed air quality monitoring stations in the National Ambient Air Quality Standards (NAAQS) compliance monitoring network. Generally, measurement from only one or two monitoring sites represent the PM2.5 level of whole urban area. However, air pollution exhibits spatial variability because of the locations and strengths of local sources, the effect of street canyons and complex terrain, and urban heat island effects (Masiol et al., 2018). When it comes to limited spatial coverage and accuracy, it can cause biased strategies for improving public health or may underestimate health effect. Therefore, it is crucial to estimate and predict accurate PM2.5 level to overcome these limitations.
+
+# Inspiring Examples
+
+## U.S. AirNow fire and smoke map
+
+![](https://media.npr.org/assets/img/2023/06/29/us-air-quality-red-alert-smoke-canada_wide-b77fdb61d8262693bb3a9a6dc947d7005d422639.jpg?s=1100&c=85&f=webp) This graph illustrates air quality index over the US when the U.S. is under red and purple air quality alerts from Canada's smoke. This type of graph could be used to visualize representative value of a location and can be a dynamic online maps using `addMarkers()` in leaflet.
+
+# Proposed data sources
+
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+| Col1           | Col2                                      | data source                                                                                          |
++================+===========================================+======================================================================================================+
+| Response (Y)   | daily PM2.5                               | <https://aqs.epa.gov/aqsweb/documents/data_api.html>                                                 |
+|                |                                           |                                                                                                      |
+|                |                                           | <https://www.epa.gov/outdoor-air-quality-data/download-daily-data>                                   |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+| Predictors (X) | distance to the nearest road from network | <https://services6.arcgis.com/EbVsqZ18sv1kVJ3k/arcgis/rest/services/NYS_Streets/FeatureServer>       |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | distance to the nearest airpot            | <https://services1.arcgis.com/SR1muQK0r6SVF2nb/arcgis/rest/services/NYS_Airports_view/FeatureServer> |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of industrial                        | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of commerce                          | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of residential                       | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of agricultural land                 | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of cropland                          | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | area of forest land                       | <https://www.usgs.gov/centers/eros/science/national-land-cover-database>                             |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | NDVI                                      | <https://modis.gsfc.nasa.gov/data/dataprod/mod13.php>                                                |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | daily temperature                         | <https://www.epa.gov/hydrowq/meteorological-data-new-york>                                           |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+|                | daily humidity                            | <https://www.epa.gov/hydrowq/meteorological-data-new-york>                                           |
++----------------+-------------------------------------------+------------------------------------------------------------------------------------------------------+
+
+: Data source
+
+# Proposed methods
+
+One of approach to indirectly measure air pollution is using a land use regression model. The land use regression model is based on an idea that ambient air pollution is impacted by surrounding environment. It incorporates monitoring data and land-use variables to provide improved exposure estimates (Masiol et al., 2018).
+
+The major procedure of developing land use regression model includes four steps:
+
+-   First, we collect measurement at the designated locations of human exposure.
+
+-   Next, we also collect comprehensive number of GIS and other variables that relate to air pollutions, such as traffic density, road networks, and land uses.
+
+-   The third step is to apply statistical method to explain the variations of the measured data and to evaluate the prediction ability of the model.
+
+-   Once the model has been evaluated with good performance, we are going to apply it to predict outdoor concentrations at the locations of interest.
+
+Based on literature review, this study determined predictor variables: distance to the nearest road, distance to the nearest airport, area of land use types (industrial, commerce, residential, agriculture land, cropland, forest land), NDVI (Normalized Difference Vegetation Index), which is a metric used to measure the health and density of vegetation within circular buffers (100-300 m). Moreover, we also consider metalogical factors, which are temperature and humidity, known for having related correlation with PM 2.5 (Masiol et al., 2018).
+
+# Expected results
+
+![](https://ars.els-cdn.com/content/image/1-s2.0-S0048969721013735-ga1.jpg)
+
+# Reference
+
+1.  EPA. "Particualte Matter Basics". <https://www.epa.gov/pm-pollution/particulate-matter-pm-basics>
+
+2.  Dadvand, Payam, et al. "Maternal exposure to particulate air pollution and term birth weight: a multi-country evaluation of effect and heterogeneity." *Environmental health perspectives*121.3 (2013): 267-373.
+
+3.  Masiol, Mauro, et al. "Hourly land-use regression models based on low-cost PM monitor data." *Environmental research*167 (2018): 7-14.
