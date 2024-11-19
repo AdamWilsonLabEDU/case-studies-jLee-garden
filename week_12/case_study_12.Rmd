@@ -25,6 +25,7 @@ library(ggplot2)
 ```
 
 # Download data
+
 ```{r}
 library(xts)
 library(dygraphs)
@@ -35,6 +36,7 @@ d <- weather_history(c(43.00923265935055, -78.78494250958327),start = "2023-01-0
 ```
 
 # 1. Convert data into xts data
+
 ```{r}
 # convert data in to an xts time series object
 d.temp.xts <- d %>% select("date", "daily_temperature_2m_max") %>%
@@ -45,6 +47,7 @@ d.prec.xts <- d %>% select("date", "daily_precipitation_sum") %>%
 ```
 
 # 2. Plot dygraph of temperature
+
 ```{r}
 # dygraph of temperature
 dygraph(d.temp.xts, main = "Daily Maximum Temperature in Buffalo, NY") %>%
@@ -53,6 +56,7 @@ dygraph(d.temp.xts, main = "Daily Maximum Temperature in Buffalo, NY") %>%
 ```
 
 # 3. Plot dygraph of precipitation
+
 ```{r}
 # dygraph of precipitation
 dygraph(d.prec.xts, main = "Daily Precipitation in Buffalo, NY") %>%
